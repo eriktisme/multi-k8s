@@ -1,0 +1,42 @@
+apiVersion: skaffold/v1beta17
+kind: Config
+build:
+  local:
+    push: false
+  artifacts:
+    - image: evandam93/multi-client
+      context: client
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: '**/*.html'
+            dest: .
+          - src: '**/*.js'
+            dest: .
+          - src: '**/*.css'
+            dest: .
+    - image: evandam93/multi-server
+      context: server
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+    - image: evandam93/multi-worker
+      context: worker
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+deploy:
+  kubectl:
+    manifests:
+      - k8s/client-deployment.yaml
+      - k8s/server-deployment.yaml
+      - k8s/worker-deployment.yaml
+      - k8s/server-cluster-ip-service.yaml
+      - k8s/server-cluster-ip-service.yaml
