@@ -13,3 +13,12 @@ After that we need to create a cluster role binding
 
 Once we have configured our role-bases access control we can run `helm init --service-account tiller --upgrade` to initialize Helm.
 
+### Configuring HTTPS
+Configure [Cert-Manager](https://docs.cert-manager.io/en/latest/getting-started/install/kubernetes.html) and run the following command 
+```
+helm install \
+  --name cert-manager \
+  --namespace kube-system \
+  --version v0.11.0 \
+  jetstack/cert-manager
+```

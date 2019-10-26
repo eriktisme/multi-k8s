@@ -1,0 +1,20 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: scaling-ltd-tls
+spec:
+  secretName: scaling-ltd
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: scaling.ltd
+  dnsNames:
+    - scaling.ltd
+    - www.scaling.ltd
+  acme:
+    config:
+      - http01:
+          ingressClass: nginx
+        domains:
+          - scaling.ltd
+          - www.scaling.ltd
